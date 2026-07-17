@@ -12,6 +12,7 @@
 <header>
   <nav>
     <a href="#entrada">+ Registrar</a>
+    <a href="#mi-resumen">Mi resumen</a>
     <a href="#dashboard" id="nav-dashboard" class="hidden">Resumen</a>
   </nav>
   <div>
@@ -50,8 +51,14 @@
       <label for="mov-categoria">Categoría</label>
       <select id="mov-categoria" required></select>
 
-      <label for="mov-monto">Monto (Bs)</label>
-      <input id="mov-monto" type="number" step="0.01" min="0" required>
+      <label for="mov-monto">Monto</label>
+      <div class="monto-row">
+        <input id="mov-monto" type="number" step="0.01" min="0" required>
+        <select id="mov-moneda">
+          <option value="Bs">Bs</option>
+          <option value="USD">USD</option>
+        </select>
+      </div>
 
       <div id="mov-preview-usd"></div>
 
@@ -62,14 +69,32 @@
     </form>
   </section>
 
-  <section id="view-dashboard" class="view hidden">
-    <h2>Resumen (admin)</h2>
-    <table><tbody id="resumen-tabla"></tbody></table>
+  <section id="view-mi-resumen" class="view hidden">
+    <h2>Mi resumen</h2>
+    <p id="mi-resumen-tasa" class="tasa-bcv"></p>
+    <table><tbody id="mi-resumen-totales"></tbody></table>
 
-    <h2>Deudas</h2>
+    <h3>Mis gastos por categoría</h3>
+    <div id="mi-resumen-grafico" class="chart"></div>
+  </section>
+
+  <section id="view-dashboard" class="view hidden">
+    <h2>Resumen consolidado (admin)</h2>
+    <p id="resumen-tasa" class="tasa-bcv"></p>
+
+    <h3>Totales por usuario</h3>
+    <table><tbody id="resumen-usuarios-tabla"></tbody></table>
+
+    <h3>Gastos por categoría</h3>
+    <div id="resumen-grafico-categorias" class="chart"></div>
+
+    <h3>Gastos por usuario</h3>
+    <div id="resumen-grafico-usuarios" class="chart"></div>
+
+    <h3>Deudas</h3>
     <table><tbody id="deudas-tabla"></tbody></table>
 
-    <h2>Movimientos</h2>
+    <h3>Movimientos</h3>
     <table><tbody id="movimientos-tabla"></tbody></table>
   </section>
 </main>
@@ -80,6 +105,8 @@
 <script src="./js/api.js"></script>
 <script src="./js/auth.js"></script>
 <script src="./js/entry-form.js"></script>
+<script src="./js/charts.js"></script>
 <script src="./js/dashboard.js"></script>
+<script src="./js/mi-resumen.js"></script>
 <script src="./js/reminders.js"></script>
 <script src="./js/app.js"></script>

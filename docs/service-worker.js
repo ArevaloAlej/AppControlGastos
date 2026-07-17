@@ -1,4 +1,4 @@
-const CACHE_NAME = "gastos-pareja-v1";
+const CACHE_NAME = "gastos-pareja-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -8,7 +8,9 @@ const APP_SHELL = [
   "./js/auth.js",
   "./js/api.js",
   "./js/entry-form.js",
+  "./js/charts.js",
   "./js/dashboard.js",
+  "./js/mi-resumen.js",
   "./js/reminders.js",
   "./js/categories.js",
   "./icons/icon-192.png",

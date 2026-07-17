@@ -93,6 +93,8 @@ function routeAction(action, params) {
     case "getResumen":
       requireAdmin(session);
       return getResumen(session, params);
+    case "getMiResumen":
+      return getMiResumen(session, params);
 
     case "registrarPush":
       return registrarPush(session, params);

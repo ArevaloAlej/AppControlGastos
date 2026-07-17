@@ -14,6 +14,7 @@ function initEntryForm() {
 
   document.getElementById("mov-monto").addEventListener("input", programarPreviewTasa);
   document.getElementById("mov-fecha").addEventListener("change", programarPreviewTasa);
+  document.getElementById("mov-moneda").addEventListener("change", programarPreviewTasa);
 
   form.addEventListener("submit", onSubmitMovimiento);
 }
@@ -33,6 +34,7 @@ function programarPreviewTasa() {
 async function mostrarPreviewTasa() {
   const fecha = document.getElementById("mov-fecha").value;
   const monto = parseFloat(document.getElementById("mov-monto").value);
+  const moneda = document.getElementById("mov-moneda").value;
   const preview = document.getElementById("mov-preview-usd");
   if (!fecha || !monto) {
     preview.textContent = "";
@@ -40,8 +42,13 @@ async function mostrarPreviewTasa() {
   }
   try {
     const { tasa } = await apiGet("getTasa", { fecha });
-    const usd = (monto / tasa).toFixed(2);
-    preview.textContent = `≈ $${usd} USD (tasa BCV: ${tasa} Bs — ${fecha})`;
+    if (moneda === "USD") {
+      const bs = (monto * tasa).toFixed(2);
+      preview.textContent = `≈ Bs ${bs} (tasa BCV: ${tasa} Bs — ${fecha})`;
+    } else {
+      const usd = (monto / tasa).toFixed(2);
+      preview.textContent = `≈ $${usd} USD (tasa BCV: ${tasa} Bs — ${fecha})`;
+    }
   } catch (err) {
     preview.textContent = "No se pudo calcular la tasa: " + err.message;
   }
@@ -58,7 +65,8 @@ async function onSubmitMovimiento(ev) {
       fecha: form.querySelector("#mov-fecha").value,
       tipo: form.querySelector('input[name="tipo"]:checked').value,
       categoria: form.querySelector("#mov-categoria").value,
-      monto_bs: form.querySelector("#mov-monto").value,
+      monto: form.querySelector("#mov-monto").value,
+      moneda: form.querySelector("#mov-moneda").value,
       nota: form.querySelector("#mov-nota").value
     });
 

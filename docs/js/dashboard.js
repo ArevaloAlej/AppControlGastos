@@ -6,14 +6,31 @@ async function initDashboard() {
 }
 
 async function cargarResumen() {
-  const cont = document.getElementById("resumen-tabla");
+  const tasaEl = document.getElementById("resumen-tasa");
+  const usuariosCont = document.getElementById("resumen-usuarios-tabla");
+  const catChart = document.getElementById("resumen-grafico-categorias");
+  const userChart = document.getElementById("resumen-grafico-usuarios");
+
   try {
-    const { filas } = await apiGet("getResumen");
-    cont.innerHTML = filas.map(fila =>
-      `<tr>${fila.map(c => `<td>${c}</td>`).join("")}</tr>`
-    ).join("");
+    const r = await apiGet("getResumen");
+
+    tasaEl.textContent = `Tasa BCV de hoy: ${Number(r.tasa_bcv_hoy).toFixed(4)} Bs por USD`;
+
+    usuariosCont.innerHTML = r.por_usuario.map(u => `
+      <tr>
+        <td>${u.nombre}</td>
+        <td>Gastos: ${u.gastos_bs.toFixed(2)} Bs / $${u.gastos_usd.toFixed(2)}</td>
+        <td>Ingresos: ${u.ingresos_bs.toFixed(2)} Bs / $${u.ingresos_usd.toFixed(2)}</td>
+      </tr>
+    `).join("");
+
+    const datosCategorias = Object.entries(r.categorias).map(([label, v]) => ({ label, value: v.bs }));
+    renderBarChart(catChart, datosCategorias, { prefix: "Bs ", decimals: 0 });
+
+    const datosUsuarios = r.por_usuario.map(u => ({ label: u.nombre, value: u.gastos_bs }));
+    renderBarChart(userChart, datosUsuarios, { prefix: "Bs ", decimals: 0 });
   } catch (err) {
-    cont.innerHTML = `<tr><td>Error cargando resumen: ${err.message}</td></tr>`;
+    tasaEl.textContent = "Error cargando resumen: " + err.message;
   }
 }
 
@@ -45,7 +62,7 @@ async function cargarMovimientos() {
         <td>${m.usuario}</td>
         <td>${m.tipo}</td>
         <td>${m.categoria}</td>
-        <td>${m.monto_bs} Bs / $${Number(m.monto_usd).toFixed(2)}</td>
+        <td>${m.monto_bs} Bs / $${Number(m.monto_usd).toFixed(2)}${m.moneda_ingresada === "USD" ? " (ingresado en USD)" : ""}</td>
         <td>${m.nota || ""}</td>
         <td>
           <button onclick="borrarMovimientoUI('${m.id}')">Borrar</button>

@@ -6,20 +6,35 @@
 
 var MOVIMIENTOS_HEADERS = [
   "id", "fecha", "usuario", "tipo", "categoria",
-  "monto_bs", "tasa_bcv_dia", "monto_usd", "nota", "timestamp_registro"
+  "monto_bs", "tasa_bcv_dia", "monto_usd", "nota", "timestamp_registro",
+  "moneda_ingresada", "monto_ingresado"
 ];
 
+/**
+ * Algunos gastos son en USD netos (no en Bs). El cliente manda `monto` +
+ * `moneda` ("Bs" o "USD"); aquí se calcula el otro lado con la tasa BCV del
+ * día, y se guarda también cuál fue la moneda/monto originalmente
+ * ingresados, para no perder esa información al mostrarlo de vuelta.
+ */
 function crearMovimiento(session, params) {
-  if (!params.fecha || !params.tipo || !params.categoria || !params.monto_bs) {
-    throw new Error("Faltan campos requeridos: fecha, tipo, categoria, monto_bs");
+  if (!params.fecha || !params.tipo || !params.categoria || !params.monto) {
+    throw new Error("Faltan campos requeridos: fecha, tipo, categoria, monto");
   }
   if (params.tipo !== "gasto" && params.tipo !== "ingreso") {
     throw new Error("tipo debe ser 'gasto' o 'ingreso'");
   }
 
+  var moneda = params.moneda === "USD" ? "USD" : "Bs";
+  var monto = Number(params.monto);
   var tasa = getTasaBcv(params.fecha);
-  var montoBs = Number(params.monto_bs);
-  var montoUsd = montoBs / tasa;
+  var montoBs, montoUsd;
+  if (moneda === "USD") {
+    montoUsd = monto;
+    montoBs = monto * tasa;
+  } else {
+    montoBs = monto;
+    montoUsd = monto / tasa;
+  }
   var id = Utilities.getUuid();
 
   var sheet = SpreadsheetApp.getActive().getSheetByName("Movimientos");
@@ -33,10 +48,12 @@ function crearMovimiento(session, params) {
     tasa,
     montoUsd,
     params.nota || "",
-    new Date()
+    new Date(),
+    moneda,
+    monto
   ]);
 
-  return { id: id, tasa_bcv_dia: tasa, monto_usd: montoUsd };
+  return { id: id, tasa_bcv_dia: tasa, monto_bs: montoBs, monto_usd: montoUsd };
 }
 
 function listarMovimientos(session, params) {
@@ -77,6 +94,19 @@ function rowToObject_(headers, row) {
     obj[headers[i]] = row[i];
   }
   return obj;
+}
+
+function leerHojaComoObjetos_(nombreHoja) {
+  var sheet = SpreadsheetApp.getActive().getSheetByName(nombreHoja);
+  var rows = sheet.getDataRange().getValues();
+  var headers = rows[0];
+  var out = [];
+  for (var i = 1; i < rows.length; i++) {
+    if (rows[i][0]) {
+      out.push(rowToObject_(headers, rows[i]));
+    }
+  }
+  return out;
 }
 
 function editarFilaPorId_(nombreHoja, id, cambios) {

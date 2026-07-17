@@ -26,6 +26,9 @@ function enrutar() {
     mostrarVista("login");
   } else if (hash === "#entrada") {
     mostrarVista("entrada");
+  } else if (hash === "#mi-resumen") {
+    mostrarVista("mi-resumen");
+    initMiResumen();
   } else if (hash === "#dashboard") {
     if (sesion.rol !== "admin") {
       window.location.hash = "#entrada";
