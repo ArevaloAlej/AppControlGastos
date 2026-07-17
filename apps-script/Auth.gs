@@ -58,3 +58,24 @@ function requireAdmin(session) {
     throw new Error("Acción solo permitida para el admin");
   }
 }
+
+/**
+ * Lista pública (sin sesión) de usuario_id + nombre, para que el login de
+ * la PWA muestre los nombres reales en vez de valores fijos "admin"/"pareja".
+ * Nunca expone pin_acceso.
+ */
+function listarUsuarios() {
+  var sheet = SpreadsheetApp.getActive().getSheetByName("Usuarios");
+  var rows = sheet.getDataRange().getValues();
+  var headers = rows[0];
+  var idxId = headers.indexOf("usuario_id");
+  var idxNombre = headers.indexOf("nombre");
+
+  var out = [];
+  for (var i = 1; i < rows.length; i++) {
+    if (rows[i][idxId]) {
+      out.push({ usuario_id: rows[i][idxId], nombre: rows[i][idxNombre] });
+    }
+  }
+  return out;
+}

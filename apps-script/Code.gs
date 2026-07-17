@@ -55,6 +55,9 @@ function routeAction(action, params) {
   if (action === "login") {
     return login(params.usuario, params.pin);
   }
+  if (action === "listarUsuarios") {
+    return listarUsuarios();
+  }
 
   var session = requireSession(params.token);
 

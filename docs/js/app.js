@@ -61,6 +61,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("btn-logout")?.addEventListener("click", cerrarSesion);
 
+  cargarSelectorUsuarios();
   initEntryForm();
   initRemindersNivel1();
   initRemindersNivel2();

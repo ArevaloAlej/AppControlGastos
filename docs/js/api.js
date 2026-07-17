@@ -1,5 +1,4 @@
-// Reemplaza esto con la URL /exec de tu despliegue de Apps Script.
-const APPS_SCRIPT_URL = "PEGAR_AQUI_LA_URL_DEL_WEB_APP";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlwHSRGRcP5V50xMoepnClM6aqfW_ujIQ3oRLe679kPO1LA1U4wAYB9kd4-VQ7w02NwA/exec";
 
 const Sesion = {
   get() {
