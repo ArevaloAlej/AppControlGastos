@@ -19,10 +19,10 @@ Esperado: confirma que usa la ruta `/historicos/dolares/oficial/YYYY/MM/DD`. Rep
 
 ## 4. PWA en local
 
-Sirve la carpeta `pwa/` con un servidor estático (no abras `index.html` directo con `file://`, los service workers no funcionan así):
+Sirve la carpeta `docs/` con un servidor estático (no abras `index.html` directo con `file://`, los service workers no funcionan así):
 
 ```
-npx serve pwa
+npx serve docs
 ```
 
 Abre la URL local, confirma que carga el login, y en DevTools → Application → Service Workers confirma que el service worker quedó registrado.
@@ -43,7 +43,7 @@ Desde el formulario, registra un gasto con fecha de hace 2 semanas. Confirma que
 
 ## 8. Recordatorios — nivel 1 (local)
 
-Con la PWA abierta, cambia temporalmente `HORAS_RECORDATORIO` en `pwa/js/reminders.js` a la hora actual + 1 minuto, recarga, y confirma que llega la notificación local del navegador. Revierte el cambio después de probar.
+Con la PWA abierta, cambia temporalmente `HORAS_RECORDATORIO` en `docs/js/reminders.js` a la hora actual + 1 minuto, recarga, y confirma que llega la notificación local del navegador. Revierte el cambio después de probar.
 
 ## 9. Recordatorios — nivel 2 (push real, experimental)
 
@@ -62,10 +62,10 @@ Con las DevTools abiertas en la pestaña Network, envía un movimiento desde el 
 - No hay una petición `OPTIONS` fallida antes del `POST`.
 - El `POST` a la URL de Apps Script responde `200` con JSON válido.
 
-Si ves un error de CORS, revisa que `pwa/js/api.js` esté enviando `Content-Type: text/plain;charset=utf-8` (no `application/json`) en `apiPost`.
+Si ves un error de CORS, revisa que `docs/js/api.js` esté enviando `Content-Type: text/plain;charset=utf-8` (no `application/json`) en `apiPost`.
 
 ## Riesgos conocidos (no son bugs, son limitaciones aceptadas)
 
 - **`dolarapi.com`** no tiene SLA ni límite de rate documentado — mitigado con caché en `Tasas_Cambio` y fallback a la fecha anterior más cercana si falla.
 - **Web Push real (nivel 2)** requiere criptografía (VAPID + AES128GCM) que Apps Script no soporta de forma nativa — queda como TODO explícito en `Triggers.gs`. El nivel 1 (notificación local) es el respaldo funcional.
-- **GitHub Pages en subpath** (`usuario.github.io/repo/`): si las rutas relativas fallan, revisa que ningún archivo en `pwa/` use rutas que empiecen con `/`.
+- **GitHub Pages en subpath** (`usuario.github.io/repo/`): si las rutas relativas fallan, revisa que ningún archivo en `docs/` use rutas que empiecen con `/`.

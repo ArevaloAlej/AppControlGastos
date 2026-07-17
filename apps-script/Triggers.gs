@@ -13,7 +13,7 @@
  * AES-GCM, así que este archivo deja la función `enviarPushATodos` como el
  * punto de extensión, con un TODO explícito y una implementación de
  * fallback que NO envía push real, para que el proyecto siga siendo
- * funcional (vía las notificaciones locales de pwa/js/reminders.js) aunque
+ * funcional (vía las notificaciones locales de docs/js/reminders.js) aunque
  * esta parte no se complete.
  *
  * Si se decide continuar con la implementación completa de VAPID+AES128GCM

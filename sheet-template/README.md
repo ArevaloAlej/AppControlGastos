@@ -22,4 +22,4 @@ Cada hoja con datos de ejemplo tiene una fila marcada `ejemplo-no-borrar` en gri
 
 ## Nota sobre los dropdowns
 
-Los menús desplegables (categoría, tipo, estado, etc.) usan una hoja de soporte oculta llamada `Listas` — no la borres, ni la hoja `Listas` ni sus rangos, o los dropdowns dejarán de funcionar. Si quieres cambiar las categorías disponibles, edítalas ahí (y también en `pwa/js/categories.js` para que el formulario de la PWA quede sincronizado).
+Los menús desplegables (categoría, tipo, estado, etc.) usan una hoja de soporte oculta llamada `Listas` — no la borres, ni la hoja `Listas` ni sus rangos, o los dropdowns dejarán de funcionar. Si quieres cambiar las categorías disponibles, edítalas ahí (y también en `docs/js/categories.js` para que el formulario de la PWA quede sincronizado).

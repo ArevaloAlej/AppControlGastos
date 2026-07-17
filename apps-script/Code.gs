@@ -3,7 +3,7 @@
  *
  * Lecturas (sin body, sin sesión sensible) van por GET para evitar el
  * preflight CORS que Apps Script no responde correctamente.
- * Escrituras van por POST con Content-Type: text/plain (ver pwa/js/api.js)
+ * Escrituras van por POST con Content-Type: text/plain (ver docs/js/api.js)
  * para que el navegador lo trate como "simple request" y no dispare preflight.
  */
 

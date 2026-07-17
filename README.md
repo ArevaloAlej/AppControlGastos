@@ -4,7 +4,7 @@ PWA + Google Apps Script + Google Sheets para registrar gastos, ingresos y deuda
 
 ## Componentes
 
-- **`pwa/`** — Frontend: PWA instalable (login por PIN, formulario rápido de registro, dashboard de admin, recordatorios). Se publica en GitHub Pages.
+- **`docs/`** — Frontend: PWA instalable (login por PIN, formulario rápido de registro, dashboard de admin, recordatorios). Se publica en GitHub Pages desde esta carpeta.
 - **`apps-script/`** — Backend: código `.gs` que se pega en el editor de Apps Script del Google Sheet. Expone un Web App que recibe las peticiones de la PWA, calcula la conversión de tasa BCV, y lee/escribe en el Sheet.
 - **`sheet-template/`** — `Presupuesto_Pareja_Template.xlsx`: plantilla con las 7 hojas necesarias, para subir a tu Google Drive y convertir en Google Sheet.
 - **`docs-and-testing/VERIFICATION.md`** — Checklist de pruebas manuales end-to-end.
@@ -30,20 +30,11 @@ PWA + Google Apps Script + Google Sheets para registrar gastos, ingresos y deuda
 
 ### 3. PWA
 
-1. Pega la URL `/exec` del paso anterior en `pwa/js/api.js` (constante `APPS_SCRIPT_URL`).
-2. Renombra la carpeta `pwa/` a `docs/` antes de publicar (ver siguiente sección) — o mantenla como `pwa/` si vas a usar la raíz del repo para Pages.
+Pega la URL `/exec` del paso anterior en `docs/js/api.js` (constante `APPS_SCRIPT_URL`), y sube el cambio a GitHub (`git add`, `git commit`, `git push`).
 
 ### 4. Publicar en GitHub Pages
 
-```
-git init
-git add .
-git commit -m "Scaffold inicial: PWA, Apps Script, plantilla de Sheet"
-git remote add origin <URL-de-tu-repo>
-git push -u origin main
-```
-
-Luego en GitHub: **Settings → Pages → Source: Deploy from a branch → Branch: main /docs**.
+En GitHub: **Settings → Pages → Source: Deploy from a branch → Branch: main /docs**.
 
 Si el sitio queda publicado en un subpath (`usuario.github.io/repo/`), revisa que las rutas relativas en `index.html` y `manifest.json` sigan funcionando (no deben empezar con `/`).
 
