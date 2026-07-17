@@ -19,8 +19,8 @@ async function cargarResumen() {
     usuariosCont.innerHTML = r.por_usuario.map(u => `
       <tr>
         <td>${u.nombre}</td>
-        <td>Gastos: ${u.gastos_bs.toFixed(2)} Bs / $${u.gastos_usd.toFixed(2)}</td>
-        <td>Ingresos: ${u.ingresos_bs.toFixed(2)} Bs / $${u.ingresos_usd.toFixed(2)}</td>
+        <td>Gastos: ${formatMonto(u.gastos_bs)} Bs / $${formatMonto(u.gastos_usd)}</td>
+        <td>Ingresos: ${formatMonto(u.ingresos_bs)} Bs / $${formatMonto(u.ingresos_usd)}</td>
       </tr>
     `).join("");
 
@@ -41,8 +41,8 @@ async function cargarDeudas() {
     cont.innerHTML = deudas.map(d => `
       <tr>
         <td>${d.descripcion}</td>
-        <td>${d.saldo_pendiente} ${d.moneda}</td>
-        <td>${d.fecha_vencimiento}</td>
+        <td>${formatMonto(d.saldo_pendiente)} ${d.moneda}</td>
+        <td>${formatFecha(d.fecha_vencimiento)}</td>
         <td>${d.estado}</td>
         <td>${d.usuario_responsable}</td>
       </tr>
@@ -58,11 +58,11 @@ async function cargarMovimientos() {
     const movimientos = await apiGet("listarMovimientos");
     cont.innerHTML = movimientos.map(m => `
       <tr>
-        <td>${m.fecha}</td>
+        <td>${formatFecha(m.fecha)}</td>
         <td>${m.usuario}</td>
         <td>${m.tipo}</td>
         <td>${m.categoria}</td>
-        <td>${m.monto_bs} Bs / $${Number(m.monto_usd).toFixed(2)}${m.moneda_ingresada === "USD" ? " (ingresado en USD)" : ""}</td>
+        <td>${formatMonto(m.monto_bs)} Bs / $${formatMonto(m.monto_usd)}${m.moneda_ingresada === "USD" ? " (ingresado en USD)" : ""}</td>
         <td>${m.nota || ""}</td>
         <td>
           <button onclick="borrarMovimientoUI('${m.id}')">Borrar</button>

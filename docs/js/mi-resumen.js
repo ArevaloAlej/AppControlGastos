@@ -10,9 +10,9 @@ async function initMiResumen() {
 
     const balanceBs = r.ingresos_bs - r.gastos_bs;
     totalesEl.innerHTML = `
-      <tr><td>Gastos</td><td>${r.gastos_bs.toFixed(2)} Bs / $${r.gastos_usd.toFixed(2)}</td></tr>
-      <tr><td>Ingresos</td><td>${r.ingresos_bs.toFixed(2)} Bs / $${r.ingresos_usd.toFixed(2)}</td></tr>
-      <tr><td><strong>Balance</strong></td><td><strong>${balanceBs.toFixed(2)} Bs</strong></td></tr>
+      <tr><td>Gastos</td><td>${formatMonto(r.gastos_bs)} Bs / $${formatMonto(r.gastos_usd)}</td></tr>
+      <tr><td>Ingresos</td><td>${formatMonto(r.ingresos_bs)} Bs / $${formatMonto(r.ingresos_usd)}</td></tr>
+      <tr><td><strong>Balance</strong></td><td><strong>${formatMonto(balanceBs)} Bs</strong></td></tr>
     `;
 
     const datos = Object.entries(r.categorias).map(([label, v]) => ({ label, value: v.bs }));

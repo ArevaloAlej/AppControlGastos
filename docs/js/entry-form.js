@@ -43,11 +43,11 @@ async function mostrarPreviewTasa() {
   try {
     const { tasa } = await apiGet("getTasa", { fecha });
     if (moneda === "USD") {
-      const bs = (monto * tasa).toFixed(2);
-      preview.textContent = `≈ Bs ${bs} (tasa BCV: ${tasa} Bs — ${fecha})`;
+      const bs = formatMonto(monto * tasa);
+      preview.textContent = `≈ Bs ${bs} (tasa BCV: ${formatMonto(tasa, 4)} Bs — ${fecha})`;
     } else {
-      const usd = (monto / tasa).toFixed(2);
-      preview.textContent = `≈ $${usd} USD (tasa BCV: ${tasa} Bs — ${fecha})`;
+      const usd = formatMonto(monto / tasa);
+      preview.textContent = `≈ $${usd} USD (tasa BCV: ${formatMonto(tasa, 4)} Bs — ${fecha})`;
     }
   } catch (err) {
     preview.textContent = "No se pudo calcular la tasa: " + err.message;
